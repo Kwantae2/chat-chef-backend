@@ -3,11 +3,21 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import path from "path";
 import OpenAI from "openai";
+// index.js
+import serverless from "serverless-http";
 
+// cors 이슈 해결
+const corsOption = {
+  origin: "https://kwantae-chef.netlify.app", // 프론트엔드 배포 주소
+  credential: true,
+};
+
+// --------------------
 const app = express();
 
 // cors 설정
-app.use(cors());
+// app.use(cors());
+app.use(cors(corsOption));
 
 // env 설정
 const __dirname = path.resolve();
@@ -85,4 +95,5 @@ app.post("/message", async (req, res) => {
 
 const port = process.env.PORT || 8080;
 
-app.listen(port);
+// app.listen(port);
+export const handler = serverless(app);
