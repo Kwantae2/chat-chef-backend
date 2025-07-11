@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import path from "path";
+import OpenAI from "openai";
 
 const app = express();
 
@@ -21,31 +22,9 @@ const openai = new OpenAI({
 
 console.log(process.env.OPENAI_API_KEY);
 
-// 프론트에서 받은 json 형태의 데이터를 객체로 파싱(변황)하여 사용
+// 프론트에서 받은 json 형태의 데이터를 객체로 파싱(변환)하여 사용
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// 테스트용 API
-app.get("/test", async (req, res) => {
-  try {
-    res.json({ data: "Chutzrit" });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.post("/message", async (req, res) => {
-  const message = req.body.message;
-  console.log("🚀 ~ app.post ~ message:", message);
-  try {
-    res.json({
-      id: Date.now(),
-      message: message,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 // 챗봇 api설정
 const initialMessage = (ingredientList) => {
